@@ -50,6 +50,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: beige;
 }
 
 .brick-maker {
@@ -65,4 +66,14 @@ body {
   &[data-active="Y"] {
     background-color: var(--color);
   }
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+h1 {
+  text-align: center;
 }
