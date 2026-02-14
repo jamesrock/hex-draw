@@ -3,7 +3,8 @@ import {
   BrickMaker,
   getRandom,
   createHeading,
-  createNode
+  createContainer,
+  createButton
 } from '@jamesrock/rockjs';
 
 const colors = {
@@ -15,8 +16,10 @@ const colors = {
   purple: '#b131ed',
   orange: 'rgb(255,125,0)',
   cyan: 'cyan',
-  blue: 'rgb(10, 52, 249)'
+  blue: 'rgb(0, 111, 222)'
 };
+
+const colorKeys = Object.keys(colors);
 
 const app = document.querySelector('#app');
 
@@ -47,6 +50,7 @@ const games = [
   ['0x4F44'],
   ['0x0252'],
   ['0x8421'],
+  ['0x2F4A'],
   ['0x2F22'],
   ['0x1248'],
   ['0x1668'],
@@ -55,6 +59,7 @@ const games = [
   ['0x8661'],
   ['0x55AA'],
   ['0xA5A5'],
+  ['0xD0B5'],
   ['0x9669'],
   ['0x500A'],
   ['0x5115'],
@@ -169,20 +174,45 @@ const games = [
   ['0xB693'],
   ['0xBACD'],
   ['0x2CEF'],
+  ['0xF25A'],
+  ['0x3458'],
   ['0x79D6'],
   ['0x2384'],
   ['0xDC7B'],
   ['0xAD42'],
+  ['0xCBA7'],
   ['0x52BD'],
   ['0x1CF2'],
   ['0x9278'],
+  ['0x0DA5'],
+  ['0x4B8B'],
   ['0x6D87'],
+  ['0x3884'],
+  ['0xB17D'],
   ['0x9008'],
+  ['0x4E82'],
+  ['0xAE05'],
+  ['0x83B0'],
+  ['0xE25C'],
+  ['0xE985'],
+  ['0x167A'],
+  ['0xB260'],
+  ['0x7C4F'],
+  ['0xED39'],
+  ['0xC77B'],
+  ['0x1DA3'],
+  ['0x51FA'],
+  ['0xBE8A'],
   ['0x7A8D'],
+  ['0xEA45'],
+  ['0x12C6'],
   ['0xC948'],
   ['0x496C'],
   ['0x4584'],
+  ['0xB474'],
+  ['0x4175'],
   ['0x5023'],
+  ['0x15BA'],
   ['0x91F9'],
   ['0x8572'],
   ['0x6E06'],
@@ -195,20 +225,76 @@ const games = [
   ['0x1868'],
   ['0x3D76'],
   ['0x5C7C'],
+  ['0x4D9F'],
+  ['0x82AF'],
+  ['0x7D50'],
+  ['0xAEDE'],
+  ['0x5121'],
+  ['0x48A2'],
+  ['0x5DA7'],
+  ['0xA258'],
 ];
 
-const game = getRandom(games);
-const code = game[0];
-const color = game[1] || getRandom(Object.keys(colors));
-const maker = new BrickMaker({color, type: 'binary', scale: 45});
-const codeNode = createHeading(1, code);
+const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2});
+const codeNode = createHeading(1, '{code}');
+const buttons = createContainer('buttons');
+const randomiseBtn = createButton('randomise');
+const invertBtn = createButton('invert');
+
+let randomise = false;
+let game = null;
+let code = null;
+let color = null;
+
+const newGame = () => {
+
+  if(randomise) {
+    
+    maker.randomise();
+    code = maker.value;
+    color = getRandom(colorKeys);
+
+  }
+  else {
+
+    game = getRandom(games);
+    code = game[0];
+    color = game[1] || getRandom(colorKeys);
+
+  };
+
+  console.log(randomise ? 'randomised' : 'from set');
+  
+  codeNode.innerText = code;
+
+  maker.setColor(color).clear();
+
+  randomise = !randomise;
+
+};
+
+newGame();
 
 maker.addEventListener('result', () => {
   console.log(maker.value);
   if(maker.value===code) {
-    console.log('fuck me!');
-  }
+    setTimeout(() => {
+      newGame();
+    }, 500);
+  };
+});
+
+randomiseBtn.addEventListener('click', () => {
+  maker.randomise();
+});
+
+invertBtn.addEventListener('click', () => {
+  maker.invert();
 });
 
 app.appendChild(codeNode);
 maker.appendTo(app);
+
+buttons.appendChild(randomiseBtn);
+buttons.appendChild(invertBtn);
+// app.appendChild(buttons);
