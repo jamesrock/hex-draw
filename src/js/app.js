@@ -1,11 +1,14 @@
 import '../css/app.css';
 import { 
   BrickMaker,
+  setDocumentHeight,
   getRandom,
   createHeading,
   createContainer,
   createButton
 } from '@jamesrock/rockjs';
+
+setDocumentHeight();
 
 const colors = {
   red: 'rgb(237, 0, 73)',
