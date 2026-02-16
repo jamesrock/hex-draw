@@ -34,7 +34,7 @@
 }
 
 :root {
-  --border-color: #222;
+  --border-color: #1C1C1C;
 }
 
 * {
@@ -43,14 +43,22 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
+  color: #1C1C1C;
+  font-weight: 500;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: beige;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .brick-maker {
@@ -64,22 +72,59 @@ body {
   background-color: white;
   cursor: pointer;
   transition: background-color .15s;
+  position: relative;
 
-  &[data-active="Y"] {
-    background-color: var(--color);
+  [data-labels="true"] &:after {
+    content: attr(data-value);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 900;
   }
-}
 
-#app {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  [data-labels="true"] &[data-y="0"]:after {
+    color: var(--tutorial-color-1);
+  }
+
+  [data-labels="true"] &[data-y="1"]:after {
+    color: var(--tutorial-color-2);
+  }
+
+  [data-labels="true"] &[data-y="2"]:after {
+    color: var(--tutorial-color-3);
+  }
+
+  [data-labels="true"] &[data-y="3"]:after {
+    color: var(--tutorial-color-4);
+  }
+
+  &[data-active="Y"][data-y] {
+    background-color: var(--color);
+
+    &:after {
+      color: white;
+    }
+
+  }
+
 }
 
 h1 {
   text-align: center;
   line-height: 1;
   font-size: 28pt;
+}
+
+button {
+  border: 0;
+  font-size: inherit;
+  cursor: pointer;
 }
 
 .buttons {
@@ -91,13 +136,70 @@ h1 {
   padding-top: 10px;
 
   button {
-    border: 0;
     padding: 10px 20px;
     background-color: magenta;
     color: white;
     font-weight: bold;
-    font-size: inherit;
     border-radius: 4px;
-    cursor: pointer;
   }
+}
+
+button.explainer {
+  padding: 5px 10px;
+  background-color: transparent;
+  color: #8F8F8F;
+  font-weight: 500;
+}
+
+span {
+  &.prefix {
+    opacity: 0.25;
+  }
+  &.col-1 {
+    color: var(--tutorial-color-1);
+  }
+  &.col-2 {
+    color: var(--tutorial-color-2);
+  }
+  &.col-3 {
+    color: var(--tutorial-color-3);
+  }
+  &.col-4 {
+    color: var(--tutorial-color-4);
+  }
+}
+
+.prompt {
+  position: absolute;
+  background-color: white;
+  border: solid 1px black;
+  border-radius: 10px;
+  padding: 10px;
+  top: calc(50% + 220px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 370px;
+
+  &[data-active="false"] {
+    display: none;
+  }
+
+  .prompt-body {
+    padding: 0 5px;
+    line-height: 1.3;
+  }
+
+  .prompt-foot {
+    display: flex;
+    justify-content: end;
+    padding-top: 15px;
+    button {
+      padding: 10px 20px;
+      font-weight: 700;
+      background-color: magenta;
+      color: white;
+      border-radius: 8px;
+    }
+  }
+
 }

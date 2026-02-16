@@ -1,14 +1,38 @@
 import '../css/app.css';
 import { 
   BrickMaker,
+  DisplayObject,
   setDocumentHeight,
+  makeArray,
+  makeBitArray,
   getRandom,
+  pluckRandom,
   createHeading,
   createContainer,
   createButton
 } from '@jamesrock/rockjs';
 
 setDocumentHeight();
+
+const makeActiveArray = (a) => {
+  const ref = makeBitArray(4);
+  let leftover = a;
+  return makeArray(4, (v, i) => {
+    if(leftover >= ref[i]) {
+      leftover -= ref[i];
+      return 1;
+    }
+    else {
+      return 0;
+    };
+  });
+};
+
+const makeActiveMap = () => {
+  return makeArray(16, (a, i) => makeActiveArray(i));
+};
+
+const activeMap = makeActiveMap();
 
 const colors = {
   red: 'rgb(237, 0, 73)',
@@ -236,11 +260,139 @@ const games = [
   ['0xA258'],
 ];
 
+const setValue = (row, value) => {
+
+  activeMap[value].forEach((onOff, i) => {
+    setTimeout(() => {
+      maker.node.querySelector(`[data-y="${row}"][data-x="${i}"]`).dataset.active = onOff ? 'Y' : 'N';
+    }, 250*(i+1));
+  });
+
+};
+
+const showLabels = () => {
+  
+  maker.node.dataset.labels = true;
+
+};
+
+const hideLabels = () => {
+  
+  maker.node.dataset.labels = false;
+
+};
+
+class Explainer extends DisplayObject {
+  constructor(prompts) {
+
+    super();
+
+    this.prompts = prompts;
+
+    const promptNode = this.node = createContainer('prompt');
+    const promptBodyNode = this.promptBodyNode = createContainer('prompt-body');
+    const promptFootNode = this.promptFootNode = createContainer('prompt-foot');
+    const promptNextBtn = this.promptNextBtn = createButton('next');
+
+    promptNode.appendChild(promptBodyNode);
+    promptNode.appendChild(promptFootNode);
+    promptFootNode.appendChild(promptNextBtn);
+
+    promptNextBtn.addEventListener('click', () => {
+      this.show();
+    });
+
+  };
+  show() {
+
+    if(this.step === this.prompts.length) {
+      this.hide();
+      return;
+    };
+
+    this.node.dataset.active = true;
+
+    const data = this.prompts[this.step];
+
+    this.promptBodyNode.innerHTML = data[0];
+
+    if(data[1]) {
+      data[1]();
+    };
+    
+    this.step ++;
+    return this;
+    
+  };
+  hide() {
+    
+    this.node.dataset.active = false;
+    newGame();
+    hideLabels();
+    return this;
+
+  };
+  getColors() {
+
+    const options = [...colorKeys];
+    return makeArray(4, () => colors[pluckRandom(options)]);
+
+  };
+  reset() {
+    
+    this.step = 0;
+
+  };
+  getCode(hex) {
+    
+    let out = '<span class="prefix">0x</span>';
+    const split = hex.split('');
+    makeArray(4).forEach((a) => {
+      out += `<span class="col-${a+1}">${split[a+2]}</span>`;
+    });
+    return out;
+    
+  };
+  setNextButtonLabel(label) {
+    
+    this.promptNextBtn.innerText = label;
+    return this;
+
+  };
+  step = 0;
+};
+
+const explainer = new Explainer([
+  ["HexDraw is an endless game of visually representing 16-bit hex codes..."],
+  ["Ignoring the standard 0x prefix, each digit represents each row of the grid, and each column represents 8, 4, 2 & 1...", () => {
+    codeNode.innerHTML = explainer.getCode('0xB474');
+    showLabels();
+  }],
+  ["So, for example, code 0xB474 translates to 11, 4, 7, 4..."],
+  ["Translated to the grid, the top row would require three squares to be filled: 8, 2 & 1 — totalling 11...", () => {
+    setValue(0, 11);
+  }],
+  ["The second row would require just one square to be filled: 4...", () => {
+    setValue(1, 4);
+  }],
+  ["The third row requires three squares to be filled: 4, 2 & 1...", () => {
+    setValue(2, 7);
+  }],
+  ["And the last row, same as the second, requires just one square: 4...", () => {
+    setValue(3, 4);
+  }],
+  ["And that's all! Puzzle solved!"],
+  ["Any letters are easily converted by counting from 9 — or by memorising each value — and then it’s just a case of filling the correct combination of squares for each row...", () => {
+    explainer.setNextButtonLabel('done');
+  }],
+  ["There are no time limits or scoring systems — it’s very much a casual go-at-your-own-pace type affair. Enjoy!"],
+]);
 const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2});
 const codeNode = createHeading(1, '{code}');
 const buttons = createContainer('buttons');
 const randomiseBtn = createButton('randomise');
 const invertBtn = createButton('invert');
+const tutorialBtn = createButton('Explainer', 'explainer');
 
 let randomise = false;
 let game = null;
@@ -293,9 +445,24 @@ invertBtn.addEventListener('click', () => {
   maker.invert();
 });
 
+tutorialBtn.addEventListener('click', () => {
+
+  explainer.reset();
+  explainer.show();
+
+});
+
 app.appendChild(codeNode);
 maker.appendTo(app);
+app.appendChild(tutorialBtn);
+explainer.appendTo(app);
 
 buttons.appendChild(randomiseBtn);
 buttons.appendChild(invertBtn);
 // app.appendChild(buttons);
+
+explainer.getColors().forEach((value, i) => {
+  document.documentElement.style.setProperty(`--tutorial-color-${i+1}`, value);
+});
+
+explainer.hide();
