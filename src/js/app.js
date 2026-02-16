@@ -14,6 +14,8 @@ import {
 
 setDocumentHeight();
 
+const app = document.querySelector('#app');
+
 const makeActiveArray = (a) => {
   const ref = makeBitArray(4);
   let leftover = a;
@@ -45,8 +47,6 @@ const colors = {
 };
 
 const colorKeys = Object.keys(colors);
-
-const app = document.querySelector('#app');
 
 const games = [
   ['0x2260', 'blue'],
@@ -272,6 +272,7 @@ const setValue = (row, value) => {
 
 const showLabels = () => {
   
+  maker.setColor(colors.purple);
   maker.node.dataset.labels = true;
 
 };
@@ -363,7 +364,8 @@ class Explainer extends DisplayObject {
 };
 
 const explainer = new Explainer([
-  ["HexDraw is an endless game of visually representing 16-bit hex codes..."],
+  ["HexDraw is an endless game of 16-bit hex code visual representations..."],
+  ["It's your job to deciper the codes and draw the correct patterns by tapping squares on the grid above..."],
   ["Ignoring the standard 0x prefix, each digit represents each row of the grid, and each column represents 8, 4, 2 & 1...", () => {
     codeNode.innerHTML = explainer.getCode('0xB474');
     showLabels();
@@ -385,7 +387,7 @@ const explainer = new Explainer([
   ["Any letters are easily converted by counting from 9 — or by memorising each value — and then it’s just a case of filling the correct combination of squares for each row...", () => {
     explainer.setNextButtonLabel('done');
   }],
-  ["There are no time limits or scoring systems — it’s very much a casual go-at-your-own-pace type affair. Enjoy!"],
+  ["There are no time limits or scoring systems — it’s very much a casual play-at-your-own-pace affair. Enjoy!"],
 ]);
 const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2});
 const codeNode = createHeading(1, '{code}');
@@ -462,7 +464,7 @@ buttons.appendChild(invertBtn);
 // app.appendChild(buttons);
 
 explainer.getColors().forEach((value, i) => {
-  document.documentElement.style.setProperty(`--tutorial-color-${i+1}`, value);
+  document.documentElement.style.setProperty(`--explainer-color-${i+1}`, value);
 });
 
 explainer.hide();

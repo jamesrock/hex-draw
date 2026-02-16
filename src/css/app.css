@@ -56,6 +56,7 @@ body {
 }
 
 #app {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -89,19 +90,19 @@ body {
   }
 
   [data-labels="true"] &[data-y="0"]:after {
-    color: var(--tutorial-color-1);
+    color: var(--explainer-color-1);
   }
 
   [data-labels="true"] &[data-y="1"]:after {
-    color: var(--tutorial-color-2);
+    color: var(--explainer-color-2);
   }
 
   [data-labels="true"] &[data-y="2"]:after {
-    color: var(--tutorial-color-3);
+    color: var(--explainer-color-3);
   }
 
   [data-labels="true"] &[data-y="3"]:after {
-    color: var(--tutorial-color-4);
+    color: var(--explainer-color-4);
   }
 
   &[data-active="Y"][data-y] {
@@ -156,16 +157,16 @@ span {
     opacity: 0.25;
   }
   &.col-1 {
-    color: var(--tutorial-color-1);
+    color: var(--explainer-color-1);
   }
   &.col-2 {
-    color: var(--tutorial-color-2);
+    color: var(--explainer-color-2);
   }
   &.col-3 {
-    color: var(--tutorial-color-3);
+    color: var(--explainer-color-3);
   }
   &.col-4 {
-    color: var(--tutorial-color-4);
+    color: var(--explainer-color-4);
   }
 }
 
@@ -174,9 +175,9 @@ span {
   background-color: white;
   border-radius: 10px;
   padding: 10px;
-  top: calc(50% + 220px);
+  bottom: -160px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   width: calc(100vw - 40px);
   max-width: 370px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.5);
