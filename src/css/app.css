@@ -34,7 +34,13 @@
 }
 
 :root {
-  --border-color: #1C1C1C;
+  --foreground: #1C1C1C;
+  --border-color: var(--foreground);
+  --explainer-prefix-opacity: 1;
+  --explainer-color-1: var(--foreground);
+  --explainer-color-2: var(--foreground);
+  --explainer-color-3: var(--foreground);
+  --explainer-color-4: var(--foreground);
 }
 
 * {
@@ -46,7 +52,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
-  color: #1C1C1C;
+  color: var(--foreground);
   font-weight: 500;
   height: 100%;
   display: flex;
@@ -121,6 +127,32 @@ h1 {
   text-align: center;
   line-height: 1;
   font-size: 28pt;
+
+  span {
+    transition: all .15s;
+
+    &.prefix {
+      opacity: var(--explainer-prefix-opacity);
+    }
+
+    &.col-1 {
+      color: var(--explainer-color-1);
+    }
+
+    &.col-2 {
+      color: var(--explainer-color-2);
+    }
+
+    &.col-3 {
+      color: var(--explainer-color-3);
+    }
+
+    &.col-4 {
+      color: var(--explainer-color-4);
+    }
+
+  }
+
 }
 
 button {
@@ -151,24 +183,6 @@ button.explainer {
   background-color: transparent;
   color: #8F8F8F;
   font-weight: 500;
-}
-
-span {
-  &.prefix {
-    opacity: 0.25;
-  }
-  &.col-1 {
-    color: var(--explainer-color-1);
-  }
-  &.col-2 {
-    color: var(--explainer-color-2);
-  }
-  &.col-3 {
-    color: var(--explainer-color-3);
-  }
-  &.col-4 {
-    color: var(--explainer-color-4);
-  }
 }
 
 .prompt {
