@@ -10,9 +10,7 @@ import {
 const colors = {
   red: 'rgb(237, 0, 73)',
   yellow: 'gold',
-  // green: 'limegreen',
   green: '#3dc932',
-  // purple: 'rgb(177, 49, 237)',
   purple: '#b131ed',
   orange: 'rgb(255,125,0)',
   cyan: 'cyan',
