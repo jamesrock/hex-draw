@@ -1,7 +1,6 @@
 {
-  "name": "bit-draw",
-  "private": true,
-  "version": "0.0.0",
+  "name": "hex-draw",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
