@@ -140,10 +140,10 @@ class Explainer extends DisplayObject {
   };
   getCode(hex) {
     
-    let out = '<span class="prefix">0x</span>';
+    let out = '<span class="prefix">#</span>';
     const split = hex.split('');
     makeArray(4).forEach((a) => {
-      out += `<span class="col-${a+1}">${split[a+2]}</span>`;
+      out += `<span class="col-${a+1}">${split[a+1]}</span>`;
     });
     return out;
     
@@ -157,14 +157,14 @@ class Explainer extends DisplayObject {
   step = 0;
 };
 
-const explainerCode = '0xB474';
+const explainerCode = '#B474';
 const explainer = new Explainer([
   ["HexDraw is an endless game of 16-bit hex code visual representations...", () => {
     setCode(explainer.getCode(explainerCode));
   }],
   ["It's your job to deciper the codes and draw the correct patterns by tapping squares on the grid above..."],
   ["Hex values run from 0-9, and from 10 onwards, each number is represented by letters A-F, with A representing 10, B 11, C 12, D 13, E 14 & F 15..."],
-  ["Ignoring the standard 0x prefix, each digit represents each row of the grid, and each column represents 8, 4, 2 & 1...", () => {
+  ["Ignoring the # prefix, each digit represents each row of the grid, and each column represents 8, 4, 2 & 1...", () => {
     setExplainerColors();
     showLabels();
   }],
@@ -191,7 +191,7 @@ const explainer = new Explainer([
   }],
 ]);
 const explainerColors = explainer.getColors();
-const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2});
+const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2, prefix: '#'});
 const codeNode = createHeading(1, '{code}');
 const buttons = createContainer('buttons');
 const randomiseBtn = createButton('randomise');
