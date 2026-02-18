@@ -191,7 +191,7 @@ const explainer = new Explainer([
   }],
 ]);
 const explainerColors = explainer.getColors();
-const maker = new BrickMaker({type: 'binary', scale: 45, gap: 2, prefix: '#'});
+const maker = new BrickMaker({type: 'hex', scale: 45, gap: 2, prefix: '#'});
 const codeNode = createHeading(1, '{code}');
 const buttons = createContainer('buttons');
 const randomiseBtn = createButton('randomise');
@@ -229,8 +229,6 @@ const newGame = () => {
   randomise = !randomise;
 
 };
-
-newGame();
 
 maker.addEventListener('result', () => {
   console.log(maker.value);
