@@ -36,12 +36,20 @@
 :root {
   --background: beige;
   --foreground: #1C1C1C;
+  --prompt-background: white;
+  --prompt-foreground: #181818;
   --border-color: var(--foreground);
   --explainer-prefix-opacity: 1;
   --explainer-color-1: var(--foreground);
   --explainer-color-2: var(--foreground);
   --explainer-color-3: var(--foreground);
   --explainer-color-4: var(--foreground);
+
+  @media (prefers-color-scheme: dark) {
+    --background: #1C1C1C;
+    --foreground: white;
+  }
+  
 }
 
 * {
@@ -188,7 +196,7 @@ button.explainer {
 
 .prompt {
   position: absolute;
-  background-color: white;
+  background-color: var(--prompt-background);
   border-radius: 10px;
   padding: 10px;
   bottom: -160px;
@@ -203,8 +211,10 @@ button.explainer {
   }
 
   .prompt-body {
-    padding: 0 5px;
+    padding: 2px 5px;
     line-height: 1.3;
+    font-weight: 600;
+    color: var(--prompt-foreground);
   }
 
   .prompt-foot {
