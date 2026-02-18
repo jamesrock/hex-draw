@@ -4,7 +4,7 @@ import {
   DisplayObject,
   setDocumentHeight,
   makeArray,
-  makeBitArray,
+  makeBitMap,
   getRandom,
   pluckRandom,
   createHeading,
@@ -17,25 +17,7 @@ setDocumentHeight();
 
 const app = document.querySelector('#app');
 
-const makeActiveArray = (a) => {
-  const ref = makeBitArray(4);
-  let leftover = a;
-  return makeArray(4, (v, i) => {
-    if(leftover >= ref[i]) {
-      leftover -= ref[i];
-      return 1;
-    }
-    else {
-      return 0;
-    };
-  });
-};
-
-const makeActiveMap = () => {
-  return makeArray(16, (a, i) => makeActiveArray(i));
-};
-
-const activeMap = makeActiveMap();
+const bitMap = makeBitMap(4);
 
 const colors = {
   red: 'rgb(237, 0, 73)',
@@ -51,7 +33,7 @@ const colorKeys = Object.keys(colors);
 
 const setValue = (row, value) => {
 
-  activeMap[value].forEach((onOff, i) => {
+  bitMap[value].forEach((onOff, i) => {
     setTimeout(() => {
       maker.node.querySelector(`[data-y="${row}"][data-x="${i}"]`).dataset.active = onOff ? 'Y' : 'N';
     }, 250*(i+1));
