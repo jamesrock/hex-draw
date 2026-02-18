@@ -98,11 +98,14 @@ class Explainer extends DisplayObject {
       this.show();
     });
 
+    this.hide();
+
   };
   show() {
 
     if(this.step === this.prompts.length) {
       this.hide();
+      newGame();
       return;
     };
 
@@ -123,7 +126,6 @@ class Explainer extends DisplayObject {
   hide() {
     
     this.node.dataset.active = false;
-    newGame();
     return this;
 
   };
@@ -229,6 +231,8 @@ const newGame = () => {
   randomise = !randomise;
 
 };
+
+newGame();
 
 maker.addEventListener('result', () => {
   console.log(maker.value);
