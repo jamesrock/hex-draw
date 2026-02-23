@@ -222,7 +222,7 @@ const newGame = () => {
 
   };
 
-  console.log(randomise ? 'randomised' : 'from set');
+  // console.log(randomise ? 'randomised' : 'from set');
   
   setCode(code);
 
@@ -235,7 +235,7 @@ const newGame = () => {
 newGame();
 
 maker.addEventListener('result', () => {
-  console.log(maker.value);
+  // console.log(maker.value);
   if(maker.value===code) {
     setTimeout(() => {
       newGame();
